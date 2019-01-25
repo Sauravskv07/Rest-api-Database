@@ -17,7 +17,7 @@ MongoClient.connect(url,{ useNewUrlParser: true }, (error, client)=>
 		console.log('there has been an error while connecting');
 		return process.exit(1);
 	}
-	app.get('/:studId/dashboard',(req,res)=>
+	app.get('/:studId/dashboard',(req,res,next)=>
 		{
 		const db=client.db('Courses_registered');
 		const collection=db.collection((req.params.studId).toString('utf8'));
@@ -27,7 +27,7 @@ MongoClient.connect(url,{ useNewUrlParser: true }, (error, client)=>
         		res.send(result)
     			});
 		});
-	app.post('/:studId/dashboard',(req,res)=>
+	app.post('/:studId/dashboard',(req,res,next)=>
 		{
 		const db=client.db('Courses_registered');
 		const collection=db.collection(req.params.studId);
@@ -37,7 +37,7 @@ MongoClient.connect(url,{ useNewUrlParser: true }, (error, client)=>
 			res.send(result);			
 			});
 		});
-	app.put('/:studId/dashboard/:CourseCode',(req,res)=>
+	app.put('/:studId/dashboard/:CourseCode',(req,res,next)=>
 		{
 		const db=client.db('Courses_registered');
 		const collection=db.collection((req.params.studId).toString('utf8'));
@@ -48,7 +48,7 @@ MongoClient.connect(url,{ useNewUrlParser: true }, (error, client)=>
          		res.send(result);
        			});
 		});
-	app.delete('/:studId/dashboard/:CourseCode',(req,res)=>
+	app.delete('/:studId/dashboard/:CourseCode',(req,res,next)=>
 		{
 		const db=client.db('Courses_registered');
 		const collection=db.collection((req.params.studId).toString('utf8'));
@@ -59,6 +59,7 @@ MongoClient.connect(url,{ useNewUrlParser: true }, (error, client)=>
 			res.sent(result);
 			});
 		});
+	app.use(errorhandler());
 	app.listen(3000);
 
 	});
